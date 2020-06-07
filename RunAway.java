@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.util.logging.*;
 
 
-class RunAway extends JFrame implements KeyListener{
+class RunAway extends JFrame implements ActionListener{
 
 	JPanel panel;
 	ImageIcon fondo;
@@ -20,9 +20,12 @@ class RunAway extends JFrame implements KeyListener{
 	JLabel jlTitulo_2;
 	ImageIcon iStart;
 	JButton btnInicio;
+	ImageIcon iPatrulla;
+	JLabel jlPatrulla;
 
-	JRadioButton nFacil;
-	JRadioButton nDificil;
+	JRadioButton btnFacil;
+	JRadioButton btnDificil;
+	ButtonGroup bgNiveles;
 
 	public RunAway(){
 
@@ -50,6 +53,7 @@ class RunAway extends JFrame implements KeyListener{
 		panel = new JPanel();
 		panel.setLayout(null);
 		this.getContentPane().add(panel);
+		this.setResizable(false);
 
 		//Imagen de fondo para el panel
 			/*try{
@@ -79,7 +83,6 @@ class RunAway extends JFrame implements KeyListener{
 		
 
 		//2da parte titulo de la primera ventana
-		
 		try{
 			iTitulo_2 = new ImageIcon ("./imagenes/police.png");
 			jlTitulo_2 = new JLabel();
@@ -87,11 +90,24 @@ class RunAway extends JFrame implements KeyListener{
 			jlTitulo_2.setIcon(new ImageIcon(iTitulo_2.getImage().getScaledInstance(jlTitulo_2.getWidth(),jlTitulo_2.getHeight(),Image.SCALE_SMOOTH)));
 			jlTitulo_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		}catch(Exception e){
-			System.out.println("Erro al cargan imagen.");
+			System.out.println("Error al cargan imagen.");
 		}
 
+		//Imagen de la patrulla
+		try{
+			iPatrulla = new ImageIcon ("./imagenes/patrol.png");
+			jlPatrulla = new JLabel();
+			jlPatrulla.setBounds(130,300,180,150); //(x, y, w, h)
+			jlPatrulla.setIcon(new ImageIcon(iPatrulla.getImage().getScaledInstance(jlPatrulla.getWidth(),jlPatrulla.getHeight(),Image.SCALE_SMOOTH)));
+			jlPatrulla.setHorizontalAlignment(SwingConstants.RIGHT);
+		}catch(Exception e){
+			System.out.println("Error al cargan imagen.");
+		}
+
+		//Agregar al panel
 		panel.add(jlTitulo_1);
 		panel.add(jlTitulo_2);
+		panel.add(jlPatrulla);
 	}
 
 	private void colocarBotones(){
@@ -100,46 +116,63 @@ class RunAway extends JFrame implements KeyListener{
 		try{
 			iStart = new ImageIcon("./imagenes/start.png");
 			btnInicio = new JButton();
-			btnInicio.setBounds(150,600,100,50); //(x, y, w, h)
+			btnInicio.setBounds(150,580,150,50); //(x, y, w, h)
 			btnInicio.setOpaque(true);
+			btnInicio.setBackground(Color.BLACK);
 			btnInicio.setIcon(new ImageIcon(iStart.getImage().getScaledInstance(btnInicio.getWidth(),btnInicio.getHeight(),Image.SCALE_SMOOTH)));
-			btnInicio.setForeground(Color.BLACK);
 		}catch(Exception e){
 			System.out.println("Error al cargar imgaen de boton.");
 		}
 
-		panel.add(btnInicio); //LA IMAGEN DEL BOTON NO QUEDA CENTRADA Y EL FONDO NO SE PINTA DE NEGRO
+		//Agregar boton al panel
+		panel.add(btnInicio); 
+
+		//Escuchar las acciones del boton de inicio
+		btnInicio.addActionListener(this);
 	}
 
 	public void colocarRadioBotones(){
 
 		//Boton para nivel facil
-		nFacil = new JRadioButton();
-		nFacil.setBounds(50,500,200,50); //(x, y, w, h)
-		nFacil.setEnabled(true);
-		nFacil.setText("Nivel FACIL");
-		nFacil.setFont(new Font("Times New Roman",0,18));
-		panel.add(nFacil);
+		btnFacil = new JRadioButton();
+		btnFacil.setBounds(50,450,200,50); //(x, y, w, h)
+		btnFacil.setEnabled(true);
+		btnFacil.setText("NIVEL FACIL");
+		btnFacil.setFont(new Font("Times New Roman",3,18));
+		
+		panel.add(btnFacil);
+		btnFacil.addActionListener(this);
 
 		//Boton para nivel dificil
-		nDificil = new JRadioButton();
-		nDificil.setBounds(50,550,200,50); //(x, y, w, h)
-		nDificil.setEnabled(true);
-		nDificil.setText("Nivel DIFICIL");
-		nDificil.setFont(new Font("Times New Roman",0,18));
-		panel.add(nDificil);
-	}
-
-	public void keyPressed(KeyEvent e){
-	
-	}
-
-	public void keyReleased(KeyEvent e){
+		btnDificil = new JRadioButton();
+		btnDificil.setBounds(50,500,200,50); //(x, y, w, h)
+		btnDificil.setEnabled(true);
+		btnDificil.setText("NIVEL DIFICIL");
+		btnDificil.setFont(new Font("Times New Roman",3,18));
 		
+		panel.add(btnDificil);
+		btnDificil.addActionListener(this);
+
+		//Crear un grupo de botones
+		bgNiveles = new ButtonGroup();
+		bgNiveles.add(btnFacil);
+		bgNiveles.add(btnDificil);
 	}
 
-	public void keyTyped(KeyEvent e){
-	
-	}
+	public void actionPerformed(ActionEvent event)
+	{
+		if(event.getSource() == this.btnFacil)
+		{
+			if(event.getSource() == this.btnInicio){
+				NivelFacil nF = new NivelFacil();
+			}
+		}
 
+		if(event.getSource() == this.btnDificil)
+		{
+			if(event.getSource() == this.btnInicio){
+				NivelDificil nD = new NivelDificil();
+			}
+		}
+	}
 }	
