@@ -159,20 +159,16 @@ class RunAway extends JFrame implements ActionListener{
 		bgNiveles.add(btnDificil);
 	}
 
-	public void actionPerformed(ActionEvent event)
-	{
-		if(event.getSource() == this.btnFacil)
+	//Escuchar las opciones
+	public void actionPerformed(ActionEvent event){
+		if(btnFacil.isSelected()==true && event.getSource() == this.btnInicio)
 		{
-			if(event.getSource() == this.btnInicio){
-				NivelFacil nF = new NivelFacil();
-			}
+			NivelFacil nF = new NivelFacil();
 		}
 
-		if(event.getSource() == this.btnDificil)
+		if(btnDificil.isSelected()==true && event.getSource() == this.btnInicio)
 		{
-			if(event.getSource() == this.btnInicio){
-				NivelDificil nD = new NivelDificil();
-			}
+			NivelDificil nD = new NivelDificil();
 		}
 	}
 }	
