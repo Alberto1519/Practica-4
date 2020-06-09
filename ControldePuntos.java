@@ -3,8 +3,6 @@ import java.util.*;
 
 class ControldePuntos{
 	
-	
-
 	public ArrayList<String> leerPuntaje(){
             String strLine = new String();
 			ArrayList<String> arraylist = new ArrayList<String>();
