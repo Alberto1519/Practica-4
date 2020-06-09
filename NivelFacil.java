@@ -40,7 +40,8 @@ class NivelFacil extends JFrame implements KeyListener{
 		this.add(pared);
 		
 		this.setTitle("NIVEL FACIL");
-		this.setSize(600, 400);
+		this.setExtendedState(MAXIMIZED_BOTH); //Crear vetanana del tamano de la pantalla
+		this.setResizable(false); //Evitar que se puede hacer mas pequena la ventana
 		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		this.setVisible(true);
 

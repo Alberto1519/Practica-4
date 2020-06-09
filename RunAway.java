@@ -36,6 +36,7 @@ class RunAway extends JFrame implements ActionListener{
 		componentes();
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setResizable(false); //Evitar que se puede hacer mas pequena la ventana
 		this.setVisible(true);
 	}
 
@@ -53,7 +54,6 @@ class RunAway extends JFrame implements ActionListener{
 		panel = new JPanel();
 		panel.setLayout(null);
 		this.getContentPane().add(panel);
-		this.setResizable(false);
 
 		//Imagen de fondo para el panel
 			/*try{
@@ -164,11 +164,13 @@ class RunAway extends JFrame implements ActionListener{
 		if(btnFacil.isSelected()==true && event.getSource() == this.btnInicio)
 		{
 			NivelFacil nF = new NivelFacil();
+			this.setVisible(false);
 		}
 
 		if(btnDificil.isSelected()==true && event.getSource() == this.btnInicio)
 		{
 			NivelDificil nD = new NivelDificil();
+			this.setVisible(false);
 		}
 	}
 }	
