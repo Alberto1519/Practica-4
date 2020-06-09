@@ -9,7 +9,7 @@ class HiloMusica implements Runnable{
 	}
 
 	@Override
-	public void sonar(){
+	public void run(){
 		if(this.t==83){
 			ms.inicializar();
 			ms.reproducirNota(72,1,200);
