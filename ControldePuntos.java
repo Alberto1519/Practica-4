@@ -3,13 +3,13 @@ import java.util.*;
 
 class ControldePuntos{
 	
-	public ArrayList<String> leerPuntaje(){
+	public static ArrayList<String> leerPuntaje(){
             String strLine = new String();
 			ArrayList<String> arraylist = new ArrayList<String>();
 			
             try(FileInputStream fis = new FileInputStream("./puntostotales.txt");
-                    DataInputStream in = new DataInputStream(fis);
-                    BufferedReader br = new BufferedReader( new InputStreamReader(in));)
+                DataInputStream in = new DataInputStream(fis);
+                BufferedReader br = new BufferedReader( new InputStreamReader(in));)
 			{
 					strLine = br.readLine();
                     while (strLine != null)
@@ -28,17 +28,19 @@ class ControldePuntos{
 			
 	}
 
-    public void guardarPuntos(String jugador, String puntos){
+    public static void guardarPuntos(String jugador, String puntos){
         
-        String datos = jugador + "  " + puntos + "\n";
-        
-        String strLine = new String();
-        ArrayList<String> arraylist = new ArrayList<String>();
-	    
-        try{
-                
-	        }catch (Exception e){
-            	System.out.println("Error al guardar puntos.");
-        	}
+        File pt = new File("./puntostotales.txt");
+        String datos = jugador + "  " + puntos;
+
+            try{
+                FileWriter fw = new FileWriter(pt,true);
+                PrintWriter pw = new PrintWriter(fw);
+                pw.println(datos);
+                pw.close();
+                fw.close();
+            }catch(Exception e){
+                System.out.println("No se pudo guardar el nuevo dato.");
+            }
         }   
     }

@@ -4,11 +4,11 @@ import java.awt.*;
 
 public class Sprites extends JPanel{
 
-	BufferedImage imagen;
+	BufferedImage jugador;
 
-	public Sprites(BufferedImage imagen)
+	public Sprites(BufferedImage jugador)
 	{
-		this.imagen = imagen;
+		this.jugador = jugador;
 	}
 
 	@Override
@@ -16,6 +16,6 @@ public class Sprites extends JPanel{
 	{
 
 		super.paintComponent(g);
-		g.drawImage(imagen,0,0,64,64,null);
+		g.drawImage(jugador,0,0,64,64,null);
 	}
 }

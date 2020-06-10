@@ -8,122 +8,87 @@ import java.awt.event.*;
 class NivelFacil extends JFrame implements KeyListener{
 	
 	JPanel panel;
-	BufferedImage imagen;
-	BufferedImage subImagen;
+	BufferedImage jugador;
+	BufferedImage subjugador;
 	Sprites sprite;
-	int indiceX=0;
 	Obstaculos pared;
+	int indiceX=0;
+	int alto;
 
 	public NivelFacil()
 	{
+		this.setTitle("NIVEL FACIL");
+		this.setExtendedState(MAXIMIZED_BOTH); //Crear vetanana del tamano de la pantalla
+		componentes();
+		this.setVisible(true);
+		this.setResizable(false); //Evitar que se puede hacer mas pequena la ventana
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		
+		//Escuchar las acciones del teclado
+		this.addKeyListener(this);
+	}
+
+	private void componentes(){
+
+		colocarFondo();
+		colocarPersonaje();
+	}
+
+	private void colocarFondo(){
+		
+		//Creacion del panel
 		panel = new JPanel();
 		panel.setLayout(null);
-	
+		this.getContentPane().add(panel);
+	}
+
+	private void colocarPersonaje(){
+
+		int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+		
+		//Personaje policia
 		try{
-			imagen = ImageIO.read(new File("./imagenes/professor_walk.png"));
+			jugador = ImageIO.read(new File("./imagenes/professor_walk.png"));
 
 		}catch(Exception e)
 		{
-			System.out.println("Error al cargar la imagen");
+			System.out.println("Error al cargar la jugador");
 		}
 
-		subImagen = imagen.getSubimage(0,64*3,64,64);
-		sprite = new Sprites(subImagen);
-		sprite.setBounds(0, 0, 50, 64);		
+		subjugador = jugador.getSubimage(0,64*3,64,64);
+		sprite = new Sprites(subjugador);
+
+		sprite.setBounds(70, (alto / 2) - (this.getHeight() / 2), 50, 64);		
 		sprite.setVisible(true);
 
+		//Agregar al panel
+		this.add(sprite);
+	}
+
+	private void colocarPared(){
+
+		//Primera pared
 		pared = new Obstaculos();
 		pared.setBounds(150, 70, 50, 70);
 		pared.setVisible(true);
 
-		this.add(sprite);
+		//Agregar al panel
 		this.add(pared);
-		
-		this.setTitle("NIVEL FACIL");
-		this.setExtendedState(MAXIMIZED_BOTH); //Crear vetanana del tamano de la pantalla
-		this.setResizable(false); //Evitar que se puede hacer mas pequena la ventana
-		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-		this.setVisible(true);
-
-		this.addKeyListener(this);
-		this.setVisible(true);
 	}
+
 	public void keyPressed(KeyEvent e)
 	{
-		//System.out.println("Tecla presionada = "+e.getKeyCode());
-		int t = e.getKeyCode();
 
-		Point pos = sprite.getLocation();
-		int x = (int)pos.getX();
-		int y = (int)pos.getY();
-		System.out.println( (int) pos.getX() );
-		System.out.println( (int) pos.getY() );
-
-		if(t==68)
-		{
-			x = x+5;
-			indiceX = ((indiceX + 2) % 9) * 64;
-			sprite.imagen = imagen.getSubimage(indiceX,64*3,64,64);
-			//mr.reproducirNota(67, 1, 500);//sol
-			//mr.finalizar();
-		}
-
-		else if(t==65)
-		{
-			x = x-5;
-			indiceX = ((indiceX + 2) % 9) * 64;
-			sprite.imagen = imagen.getSubimage(indiceX,64*1,64,64);
-			//mr.reproducirNota(67, 1, 500);//sol
-			//mr.finalizar();
-		}
-
-		else if(t==83)
-		{
-			y = y+5;
-			indiceX = ((indiceX + 1) % 9) * 64;
-			sprite.imagen = imagen.getSubimage(indiceX,64*2,64,64);
-			//mr.reproducirNota(67, 1, 500);//sol
-			//mr.finalizar();
-		}
-		else if(t==87)
-		{
-			y = y-5;
-			indiceX = ((indiceX + 1) % 9) * 64;
-			sprite.imagen = imagen.getSubimage(indiceX,64*0,64,64);
-			//mr.reproducirNota(67, 1, 500);//sol
-			//mr.finalizar();
-		}
-		sprite.setLocation(x,y);
-		if(x>110 && x<155 && y==5)
-		{
-			System.out.println("Colision");
-			y=y-5;
-		}
-		else if(x>110 && x<155 && y==125)
-		{
-			System.out.println("Colision");
-			y=y+5;
-		}
-		else if(x>100 && x<155 && y>5 && y<125)
-		{
-			System.out.println("Colision");
-			x=x-5;
-		}
-		else if(x==160 && y>5 && y<125)
-		{
-			System.out.println("Colision");
-			x=x+5;
-		}
-		sprite.setLocation(x,y);
 	}
 
 	public void keyReleased(KeyEvent e)
 	{
-		//System.out.println("Tecla liberada.");
+		
+
 	}
 
 	public void keyTyped(KeyEvent e)
 	{
-		//System.out.println("Tecla en el buffer.");
+
 	}
 }
