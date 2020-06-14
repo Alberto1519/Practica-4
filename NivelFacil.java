@@ -7,17 +7,29 @@ import java.awt.event.*;
 
 class NivelFacil extends JFrame implements KeyListener{
 	
+	//Panel donde se trabbajara
 	JPanel panel;
+	
+	//Creacion del personaje
 	BufferedImage jugador;
 	BufferedImage subjugador;
 	Sprites sprite;
+	
+	//Creacion de los obtaculos 
 	Obstaculos pared;
 	ImageIcon iPared;
 	JLabel jlPared;
+	
+	//Coordenadas del personaje
 	int indiceX=0;
+	
+	//Dimensiones de la pantalla
 	int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
 	int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+	
+	//Hilos utilizados
 	Thread movimiento1;
+	Thread sonidohp;
 
 	public NivelFacil()
 	{
@@ -125,6 +137,8 @@ class NivelFacil extends JFrame implements KeyListener{
 			x=x-5;
 		}
 		sprite.setLocation(x,y);
+
+		crearSonidoPasos(t); //Hilo para reproducir los pasos
 	}
 
 	public void keyReleased(KeyEvent e)
@@ -147,10 +161,18 @@ class NivelFacil extends JFrame implements KeyListener{
 	{
 
 	}
+
 	public void crearMovimiento1()
 	{
 		Movimiento mov1 = new Movimiento(this.jlPared);
 		movimiento1 = new Thread(mov1);
 		movimiento1.start();
+	}
+
+	public void crearSonidoPasos(int t)
+	{
+		HiloPasos hp = new HiloPasos(t);
+		sonidohp = new Thread(hp);
+		sonidohp.start();
 	}
 }

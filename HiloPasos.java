@@ -1,6 +1,7 @@
 import javax.swing.*;
 
 class HiloPasos implements Runnable{
+
 	int t;
 	Pasos ps =  new Pasos();
 
@@ -12,13 +13,13 @@ class HiloPasos implements Runnable{
 	public void run(){
 		if(this.t==83){
 			ps.inicializar();
-			ps.reproducirNota(72,1,200);
+			ps.reproducirNota(72,1,10);
 			ps.finalizar();
 		}
 
 		if(this.t==87){
 			ps.inicializar();
-			ps.reproducirNota(79,1,200);
+			ps.reproducirNota(76,1,10);
 			ps.finalizar();
 		}
 

@@ -9,6 +9,8 @@ class VentanaPrincipal extends JFrame implements ActionListener{
 
 	JPanel panel;
 
+	Musica ms;
+
 	//Primera ventana
 	ImageIcon iTitulo_1;
 	JLabel jlTitulo_1;
@@ -31,6 +33,9 @@ class VentanaPrincipal extends JFrame implements ActionListener{
 	ButtonGroup bgNiveles;
 
 	public VentanaPrincipal(){
+
+		ms = new Musica();
+		ms.playMusic();
 
 		this.setTitle("RUN AWAY ...");
 		this.setSize(450,700); //Tamano de la ventana (x, y)
@@ -168,12 +173,14 @@ class VentanaPrincipal extends JFrame implements ActionListener{
 		{
 			NivelFacil nF = new NivelFacil();
 			this.setVisible(false);
+			ms.StopPlaying();
 		}
 
 		if(btnDificil.isSelected()==true && event.getSource() == this.btnInicio)
 		{
 			NivelDificil nD = new NivelDificil();
 			this.setVisible(false);
+			ms.StopPlaying();
 		}
 	}
 }	

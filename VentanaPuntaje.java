@@ -29,6 +29,7 @@ class VentanaPuntaje extends JFrame implements ActionListener{
 	//Area del puntaje
 	JTextArea txaPuntajesTotales;
 	ArrayList <String> puntajes;
+	JScrollPane scbar;
 
 	ControldePuntos cdp = new ControldePuntos();
 
@@ -147,6 +148,10 @@ class VentanaPuntaje extends JFrame implements ActionListener{
 		//Puntos del jugador (CALIS)
 		txfJugador_2 = new JTextField();
 		txfJugador_2.setBounds(180,400,100,40);
+
+		//Scrollbar
+		scbar = new JScrollPane();
+
 
 		//Agregar al panel
 		panel.add(txfJugador);

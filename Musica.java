@@ -1,54 +1,29 @@
-import javax.sound.midi.*;
-import java.util.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
 
 class Musica{
 
-	//Atributos para reproducir notas
-	private Synthesizer synthe = null;
-	private int intensity = 100;
-	private MidiChannel [] channels;
-	private MidiChannel channel;
+	Clip clip;
 
-	//Metodos para reproducir las notas
-	public Musica(){
+	public void playMusic(){
+
 		try{
-			synthe = MidiSystem.getSynthesizer();
+			File msc = new File("./musica/sound-of-the-police.wav");
+
+			AudioInputStream audioIS = AudioSystem.getAudioInputStream(msc);
+			clip = AudioSystem.getClip();
+			clip.open(audioIS);
+			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
 
 		}catch(Exception e){
-			System.out.println("Error: al obtener synthe.");
+			System.out.println("Error al reproducir la cancion.");
 		}
 	}
 
-	public void inicializar(){
-		try{
-			synthe.open();
-			channels = synthe.getChannels();
-
-		}catch(Exception e){
-			System.out.println("Error: al inizializar el synthe.");
-		}
+	public void StopPlaying(){
+		clip.stop();
 	}
-
-	public void reproducirNota(int nota, int canal, int duracion){
-		
-		channel = channels[canal];
-		channel.noteOn(nota, intensity);
-
-		try{
-				Thread.sleep(duracion);
-			}catch(Exception e){
-				System.out.println("ERROR: en sleep.");
-			}
-
-		channel.noteOff(nota);
-	}
-
-	public void finalizar(){
-		try{
-			synthe.close();
-
-		}catch(Exception e){
-			System.out.println("Error: al finalizar el synthe.");
-		}
-	}	
 }
