@@ -9,20 +9,29 @@ class NivelFacil extends JFrame implements KeyListener{
 	
 	//Panel donde se trabbajara
 	JPanel panel;
+	ImageIcon iFondo;//calle fondo
+	JLabel jlFondo;
+	
 	
 	//Creacion del personaje
 	BufferedImage jugador;
 	BufferedImage subjugador;
 	Sprites sprite;
+	Rectangle posJugador;
 	
-	//Creacion de los obtaculos 
-	Obstaculos pared;
+	//Creacion del policia
+	BufferedImage policia;
+	BufferedImage subpolicia;
+	Policia pol1;
+	Rectangle posPolicia;
+
+	//Creacion de los obstaculos 
 	ImageIcon iPared;
 	JLabel jlPared;
 	
 	//Coordenadas del personaje
 	int indiceX=0;
-	
+	int indiceX_Policia=0;
 	//Dimensiones de la pantalla
 	int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
 	int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -42,15 +51,13 @@ class NivelFacil extends JFrame implements KeyListener{
 		
 		//Escuchar las acciones del teclado
 		this.addKeyListener(this);
-
-		
-
 	}
 
 	private void componentes(){
 		colocarPared();
-		colocarFondo();
 		colocarPersonaje();
+		colocarPolicia();
+		colocarFondo();		
 		crearMovimiento1();
 	}
 
@@ -60,27 +67,60 @@ class NivelFacil extends JFrame implements KeyListener{
 		panel = new JPanel();
 		panel.setLayout(null);
 		this.getContentPane().add(panel);
+		try{
+			iFondo = new ImageIcon ("./imagenes/calle_nF.png");
+			jlFondo = new JLabel();
+			jlFondo.setBounds(0,0,ancho, alto); //(x, y, w, h)
+			jlFondo.setIcon(new ImageIcon(iFondo.getImage().getScaledInstance(jlFondo.getWidth(),jlFondo.getHeight(),Image.SCALE_SMOOTH)));
+		}catch(Exception e){
+			System.out.println("Error al cargar imagen.");
+		} 
+		jlFondo.setOpaque(false);
+		this.add(jlFondo);
 	}
 
 	private void colocarPersonaje(){
 		
-		//Personaje policia
+		//Personaje
 		try{
-			jugador = ImageIO.read(new File("./imagenes/professor_walk.png"));
+			jugador = ImageIO.read(new File("./imagenes/personaje_nF.png"));
 
 		}catch(Exception e)
 		{
-			System.out.println("Error al cargar la jugador");
+			System.out.println("Error al cargar la imagen");
 		}
 
-		subjugador = jugador.getSubimage(0,64*3,64,64);
+		subjugador = jugador.getSubimage(0,141*2,150,141);
 		sprite = new Sprites(subjugador);
 
-		sprite.setBounds(ancho/2, alto/ 2, 50, 64);		
+		sprite.setBounds(0, 0, 150, 141);		
 		sprite.setVisible(true);
-
+		sprite.setOpaque(false);
+		sprite.setLocation((ancho/2)-10,alto/2);
 		//Agregar al panel
 		this.add(sprite);
+	}
+
+	private void colocarPolicia()
+	{
+		//Policia
+		try{
+			policia = ImageIO.read(new File("./imagenes/policia_nF.png"));
+
+		}catch(Exception e)
+		{
+			System.out.println("Error al cargar la imagen");
+		}
+
+		subpolicia = policia.getSubimage(0,150*2,150,150);
+		pol1 = new Policia(subpolicia);
+
+		pol1.setBounds(0, 0, 150, 150);		
+		pol1.setVisible(true);
+		pol1.setOpaque(false);
+		pol1.setLocation((ancho/2)-160,alto/2);
+		//Agregar al panel
+		this.add(pol1);
 	}
 
 	private void colocarPared(){
@@ -89,18 +129,13 @@ class NivelFacil extends JFrame implements KeyListener{
 		try{
 			iPared = new ImageIcon ("./imagenes/pared.png");
 			jlPared = new JLabel();
-			jlPared.setBounds(30,10,380,200); //(x, y, w, h)
+			jlPared.setBounds(0,0,380*2,200*2); //(x, y, w, h)
 			jlPared.setIcon(new ImageIcon(iPared.getImage().getScaledInstance(jlPared.getWidth(),jlPared.getHeight(),Image.SCALE_SMOOTH)));
 		}catch(Exception e){
 			System.out.println("Error al cargar imagen.");
 		} 
-		
+		jlPared.setOpaque(false);
 		this.add(jlPared);
-	}
-
-	public void actualizar()
-	{
-
 	}
 
 	public void keyPressed(KeyEvent e)
@@ -109,52 +144,69 @@ class NivelFacil extends JFrame implements KeyListener{
 		Point pos = sprite.getLocation();
 		int x = (int)pos.getX();
 		int y = (int)pos.getY();
-		//System.out.println( (int) pos.getX() );
-		//System.out.println( (int) pos.getY() );
-		//System.out.println("ancho="+ancho);
+		Point posPolicia = pol1.getLocation();
+		int x_policia = (int)posPolicia.getX();
+		int y_policia = (int)posPolicia.getY();
 
-		if(t==68)
+		if(t==68)//adelante
 		{
 			x = x+5;
-			indiceX = ((indiceX + 2) % 9) * 64;
-			sprite.jugador = jugador.getSubimage(indiceX,64*3,64,64);
+			indiceX = ((indiceX + 1) % 4) * 150;
+			sprite.jugador = jugador.getSubimage(indiceX,141*2,150,141);
+			
+			x_policia = x_policia+5;
+			indiceX_Policia = ((indiceX_Policia + 1) % 4) * 150;
+			pol1.policia = policia.getSubimage(indiceX_Policia,150*2,150,150);
+
 		}
-		else if(t==83)
+		else if(t==83)//abajo
 		{
 			y = y+5;
-			indiceX = ((indiceX + 1) % 9) * 64;
-			sprite.jugador = jugador.getSubimage(indiceX,64*2,64,64);
+			indiceX = ((indiceX + 1) % 4) * 150;
+			sprite.jugador = jugador.getSubimage(indiceX,141*0,150,141);
+
+			y_policia = y_policia+5;
+			indiceX_Policia = ((indiceX_Policia + 1) % 4) * 150;
+			pol1.policia = policia.getSubimage(indiceX_Policia,150*0,150,150);
+
 		}
-		else if(t==87)
+		else if(t==87)//arriba
 		{
 			y = y-5;
-			indiceX = ((indiceX + 1) % 9) * 64;
-			sprite.jugador = jugador.getSubimage(indiceX,64*0,64,64);
+			indiceX = ((indiceX + 1) % 4) * 150;
+			sprite.jugador = jugador.getSubimage(indiceX,141*3,150,141);
+
+			y_policia = y_policia-5;
+			indiceX_Policia = ((indiceX_Policia + 1) % 4) * 150;
+			pol1.policia = policia.getSubimage(indiceX_Policia,150*3,150,150);
 		}
 		sprite.setLocation(x,y);
-		if(x>0)
+		pol1.setLocation(x_policia,y_policia);
+		if(x>ancho/2)
 		{
 			x=x-5;
+			x_policia=x_policia-5;
+		}
+		else if(y>alto-250)
+		{
+			y=y-5;
+			y_policia=y_policia-5;
+		}
+		else if(y<-90)
+		{
+			y=y+5;
+			y_policia=y_policia+5;
 		}
 		sprite.setLocation(x,y);
-
-		crearSonidoPasos(t); //Hilo para reproducir los pasos
+		pol1.setLocation(x_policia,y_policia);
+		posJugador = sprite.getBounds();
+		
+		//System.out.println(posJugador);
+		//crearSonidoPasos(t); //Hilo para reproducir los pasos
 	}
 
 	public void keyReleased(KeyEvent e)
 	{
-		Point pos = sprite.getLocation();
-		int x = (int)pos.getX();
-		int y = (int)pos.getY();
-		x = x+5;
-		indiceX = ((indiceX + 2) % 9) * 64;
-		sprite.jugador = jugador.getSubimage(indiceX,64*3,64,64);
-		sprite.setLocation(x,y);
-		if(x>0)
-		{
-			x=x-5;
-		}
-		sprite.setLocation(x,y);
 	}
 
 	public void keyTyped(KeyEvent e)
@@ -166,7 +218,7 @@ class NivelFacil extends JFrame implements KeyListener{
 	{
 		Movimiento mov1 = new Movimiento(this.jlPared);
 		movimiento1 = new Thread(mov1);
-		movimiento1.start();
+		movimiento1.start(); 
 	}
 
 	public void crearSonidoPasos(int t)

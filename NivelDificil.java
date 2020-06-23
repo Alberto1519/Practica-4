@@ -7,122 +7,194 @@ import java.awt.event.*;
 
 class NivelDificil extends JFrame implements KeyListener{
 	
+	//Panel donde se trabajara
 	JPanel panel;
-	BufferedImage imagen;
-	BufferedImage subImagen;
-	Sprites sprite;
+	ImageIcon iFondo;//calle fondo
+	JLabel jlFondo;
+	
+	//Creacion del personaje
+	BufferedImage jugadorD;
+	BufferedImage subjugadorD;
+	SpriteDificil spriteD;
+	Rectangle posjugadorD;
+
+	//Creacion de los obstaculos 
+	ImageIcon iPatrulla;
+	JLabel jlPatrulla;
+	Rectangle posPatrulla;
+	
+	//Coordenadas del personaje
 	int indiceX=0;
-	Obstaculos pared;
+	
+	//Dimensiones de la pantalla
+	int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+	int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+	
+	//Hilos utilizados
+	Thread Patrulla1;
+	Thread sonidohp;
+
+	//Para comparar posiciones
 
 	public NivelDificil()
 	{
+
+		this.setTitle("NIVEL DIFICIL");
+		this.setExtendedState(MAXIMIZED_BOTH); //Crear vetanana del tamano de la pantalla
+		componentes();
+		this.setVisible(true);
+		this.setResizable(false); //Evitar que se puede hacer mas pequena la ventana
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		
+		//Escuchar las acciones del teclado
+		this.addKeyListener(this);
+	}
+
+	private void componentes(){
+		colocarPatrulla();
+		colocarPersonaje();
+		colocarFondo();
+		crearPatrulla1();
+	}
+
+	private void colocarFondo(){
+		
+		//Creacion del panel
 		panel = new JPanel();
 		panel.setLayout(null);
-	
+		this.getContentPane().add(panel);
 		try{
-			imagen = ImageIO.read(new File("./imagenes/professor_walk.png"));
+			iFondo = new ImageIcon ("./imagenes/calle_nD.png");
+			jlFondo = new JLabel();
+			jlFondo.setBounds(0,0,ancho, alto); //(x, y, w, h)
+			jlFondo.setIcon(new ImageIcon(iFondo.getImage().getScaledInstance(jlFondo.getWidth(),jlFondo.getHeight(),Image.SCALE_SMOOTH)));
+		}catch(Exception e){
+			System.out.println("Error al cargar imagen.");
+		} 
+		jlFondo.setOpaque(false);
+		this.add(jlFondo);
+	}
+
+	private void colocarPersonaje(){
+		
+		//Personaje policia
+		try{
+			jugadorD = ImageIO.read(new File("./imagenes/personaje_nD.png"));
 
 		}catch(Exception e)
 		{
 			System.out.println("Error al cargar la imagen");
 		}
 
-		subImagen = imagen.getSubimage(0,64*3,64,64);
-		sprite = new Sprites(subImagen);
-		sprite.setBounds(0, 0, 50, 64);		
-		sprite.setVisible(true);
+		subjugadorD = jugadorD.getSubimage(0,150*3,150,150);
+		spriteD = new SpriteDificil(subjugadorD);
 
-		pared = new Obstaculos();
-		pared.setBounds(150, 70, 50, 70);
-		pared.setVisible(true);
-
-		this.add(sprite);
-		this.add(pared);
+		spriteD.setBounds(ancho/2,alto/2, 150, 150);		
+		spriteD.setVisible(true);
+		spriteD.setOpaque(false);
 		
-		this.setTitle("NIVEL DIFICL");
-		this.setSize(600, 400);
-		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-		this.setVisible(true);
-
-		this.addKeyListener(this);
-		this.setVisible(true);
+		this.add(spriteD);
 	}
+
+	private void colocarPatrulla(){
+
+		//Primera Patrulla
+		try{
+			iPatrulla = new ImageIcon ("./imagenes/patrulla_nD.png");
+			jlPatrulla = new JLabel();
+			jlPatrulla.setBounds(0,0,380*2,200*2); //(x, y, w, h)
+			jlPatrulla.setIcon(new ImageIcon(iPatrulla.getImage().getScaledInstance(jlPatrulla.getWidth(),jlPatrulla.getHeight(),Image.SCALE_SMOOTH)));
+		}catch(Exception e){
+			System.out.println("Error al cargar imagen.");
+		} 
+		jlPatrulla.setOpaque(false);
+		this.add(jlPatrulla);
+	}
+
 	public void keyPressed(KeyEvent e)
 	{
-		//System.out.println("Tecla presionada = "+e.getKeyCode());
 		int t = e.getKeyCode();
-
-		Point pos = sprite.getLocation();
+		Point pos = spriteD.getLocation();
 		int x = (int)pos.getX();
 		int y = (int)pos.getY();
-		System.out.println( (int) pos.getX() );
-		System.out.println( (int) pos.getY() );
 
 		if(t==68)
 		{
-			x = x+5;
-			indiceX = ((indiceX + 2) % 9) * 64;
-			sprite.imagen = imagen.getSubimage(indiceX,64*3,64,64);
-			//mr.reproducirNota(67, 1, 500);//sol
-			//mr.finalizar();
+			x = x+10;
+			indiceX = ((indiceX + 2) % 9) * 150;
+			spriteD.jugadorD = jugadorD.getSubimage(indiceX,150*3,150,150);
 		}
-
-		else if(t==65)
-		{
-			x = x-5;
-			indiceX = ((indiceX + 2) % 9) * 64;
-			sprite.imagen = imagen.getSubimage(indiceX,64*1,64,64);
-			//mr.reproducirNota(67, 1, 500);//sol
-			//mr.finalizar();
-		}
-
 		else if(t==83)
 		{
-			y = y+5;
-			indiceX = ((indiceX + 1) % 9) * 64;
-			sprite.imagen = imagen.getSubimage(indiceX,64*2,64,64);
-			//mr.reproducirNota(67, 1, 500);//sol
-			//mr.finalizar();
+			y = y+10;
+			indiceX = ((indiceX + 1) % 9) * 150;
+			spriteD.jugadorD = jugadorD.getSubimage(indiceX,150*2,150,150);
 		}
 		else if(t==87)
 		{
-			y = y-5;
-			indiceX = ((indiceX + 1) % 9) * 64;
-			sprite.imagen = imagen.getSubimage(indiceX,64*0,64,64);
-			//mr.reproducirNota(67, 1, 500);//sol
-			//mr.finalizar();
+			y = y-10;
+			indiceX = ((indiceX + 1) % 9) * 150;
+			spriteD.jugadorD = jugadorD.getSubimage(indiceX,150*0,150,150);
 		}
-		sprite.setLocation(x,y);
-		if(x>110 && x<155 && y==5)
+		spriteD.setLocation(x,y);
+		if(x>ancho/2)
 		{
-			System.out.println("Colision");
-			y=y-5;
+			x=x-10;
 		}
-		else if(x>110 && x<155 && y==125)
+		else if(y>alto-200)
 		{
-			System.out.println("Colision");
-			y=y+5;
+			y=y-10;
 		}
-		else if(x>100 && x<155 && y>5 && y<125)
+		else if(y<-90)
 		{
-			System.out.println("Colision");
-			x=x-5;
+			y=y+10;
 		}
-		else if(x==160 && y>5 && y<125)
-		{
-			System.out.println("Colision");
-			x=x+5;
-		}
-		sprite.setLocation(x,y);
+		spriteD.setLocation(x,y);
+		posjugadorD = spriteD.getBounds();		
+		//System.out.println(posjugadorD);
+		//crearSonidoPasos(t); //Hilo para reproducir los pasos
 	}
 
 	public void keyReleased(KeyEvent e)
 	{
-		//System.out.println("Tecla liberada.");
+		Point pos = spriteD.getLocation();
+		int x = (int)pos.getX();
+		int y = (int)pos.getY();
+		x = x+5;
+		indiceX = ((indiceX + 2) % 9) * 150;
+		spriteD.jugadorD = jugadorD.getSubimage(indiceX,150*3,150,150);
+		spriteD.setLocation(x,y);
+		if(x>0)
+		{
+			x=x-5;
+		}
+		spriteD.setLocation(x,y);
 	}
 
 	public void keyTyped(KeyEvent e)
 	{
-		//System.out.println("Tecla en el buffer.");
+
+	}
+
+	public void crearPatrulla1()
+	{
+		Patrulla pat1 = new Patrulla(this.jlPatrulla);
+		Patrulla1 = new Thread(pat1);
+		Patrulla1.start(); 
+	}
+
+	public void crearSonidoPasos(int t)
+	{
+		HiloPasos hp = new HiloPasos(t);
+		sonidohp = new Thread(hp);
+		sonidohp.start();
+	}
+
+	public void recibirPos(Rectangle pos){
+		posPatrulla = pos;
+		if (posjugadorD.intersects(posPatrulla))
+		{
+			System.out.println("Choque");
+		}
 	}
 }

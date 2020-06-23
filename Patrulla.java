@@ -2,22 +2,18 @@ import javax.swing.*;
 import java.util.Random;
 import java.awt.*;
 
-public class Movimiento implements Runnable{
+public class Patrulla implements Runnable{
 
-	JLabel jlPared;
+	JLabel jlPatrulla;
 	int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
 	int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
 	int y;
 	int x;
-	Rectangle posPared;
+	Rectangle posPatrulla;
 
-	public Movimiento(JLabel jlPared)
+	public Patrulla(JLabel jlPatrulla)
 	{
-		this.jlPared = jlPared;
-	}
-	public void setPosPared(Rectangle posPared)
-	{
-		this.posPared=posPared;
+		this.jlPatrulla = jlPatrulla;
 	}
 
 	@Override
@@ -29,7 +25,10 @@ public class Movimiento implements Runnable{
 			y=(int)(rnd.nextDouble() * alto + 0);
 			for (x=ancho; x>-380 ; x=x-10) 
 			{
-				this.jlPared.setLocation(x,y);
+				this.jlPatrulla.setLocation(x,y);
+				posPatrulla=jlPatrulla.getBounds();	
+				//recibirPos(posPatrulla);
+				//System.out.println(posPatrulla);
 				retardo(50);
 			}						
 		}
