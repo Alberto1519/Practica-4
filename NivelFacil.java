@@ -12,18 +12,15 @@ class NivelFacil extends JFrame implements KeyListener{
 	ImageIcon iFondo;//calle fondo
 	JLabel jlFondo;
 	
-	
 	//Creacion del personaje
 	BufferedImage jugador;
 	BufferedImage subjugador;
 	Sprites sprite;
-	Rectangle posJugador;
 	
 	//Creacion del policia
 	BufferedImage policia;
 	BufferedImage subpolicia;
 	Policia pol1;
-	Rectangle posPolicia;
 
 	//Creacion de los obstaculos 
 	ImageIcon iPared;
@@ -199,7 +196,6 @@ class NivelFacil extends JFrame implements KeyListener{
 		}
 		sprite.setLocation(x,y);
 		pol1.setLocation(x_policia,y_policia);
-		posJugador = sprite.getBounds();
 		
 		//System.out.println(posJugador);
 		//crearSonidoPasos(t); //Hilo para reproducir los pasos
@@ -216,7 +212,7 @@ class NivelFacil extends JFrame implements KeyListener{
 
 	public void crearMovimiento1()
 	{
-		Movimiento mov1 = new Movimiento(this.jlPared);
+		Movimiento mov1 = new Movimiento(this.jlPared, this.sprite);
 		movimiento1 = new Thread(mov1);
 		movimiento1.start(); 
 	}

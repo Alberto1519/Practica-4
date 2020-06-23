@@ -171,7 +171,6 @@ class NivelDificil extends JFrame implements KeyListener{
 
 	public void keyTyped(KeyEvent e)
 	{
-
 	}
 
 	public void crearPatrulla1()

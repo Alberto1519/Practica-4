@@ -5,19 +5,16 @@ import java.awt.*;
 public class Movimiento implements Runnable{
 
 	JLabel jlPared;
+	Sprites sprite;
 	int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
 	int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
 	int y;
 	int x;
-	Rectangle posPared;
 
-	public Movimiento(JLabel jlPared)
+	public Movimiento(JLabel jlPared, Sprites sprite)
 	{
 		this.jlPared = jlPared;
-	}
-	public void setPosPared(Rectangle posPared)
-	{
-		this.posPared=posPared;
+		this.sprite = sprite;
 	}
 
 	@Override
@@ -31,6 +28,10 @@ public class Movimiento implements Runnable{
 			{
 				this.jlPared.setLocation(x,y);
 				retardo(50);
+				if (jlPared.getBounds().intersects(sprite.getBounds()))
+				{
+					System.out.println("choco");
+				}
 			}						
 		}
 	}	
