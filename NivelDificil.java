@@ -16,12 +16,10 @@ class NivelDificil extends JFrame implements KeyListener{
 	BufferedImage jugadorD;
 	BufferedImage subjugadorD;
 	SpriteDificil spriteD;
-	Rectangle posjugadorD;
 
 	//Creacion de los obstaculos 
 	ImageIcon iPatrulla;
 	JLabel jlPatrulla;
-	Rectangle posPatrulla;
 	
 	//Coordenadas del personaje
 	int indiceX=0;
@@ -31,7 +29,7 @@ class NivelDificil extends JFrame implements KeyListener{
 	int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
 	
 	//Hilos utilizados
-	Thread Patrulla1;
+	Thread patrulla1;
 	Thread sonidohp;
 
 	//Para comparar posiciones
@@ -48,13 +46,15 @@ class NivelDificil extends JFrame implements KeyListener{
 		
 		//Escuchar las acciones del teclado
 		this.addKeyListener(this);
+
+		crearPatrulla1();
 	}
 
 	private void componentes(){
 		colocarPatrulla();
 		colocarPersonaje();
 		colocarFondo();
-		crearPatrulla1();
+		
 	}
 
 	private void colocarFondo(){
@@ -86,7 +86,7 @@ class NivelDificil extends JFrame implements KeyListener{
 			System.out.println("Error al cargar la imagen");
 		}
 
-		subjugadorD = jugadorD.getSubimage(0,150*3,150,150);
+		subjugadorD = jugadorD.getSubimage(0,150,150,150);
 		spriteD = new SpriteDificil(subjugadorD);
 
 		spriteD.setBounds(ancho/2,alto/2, 150, 150);		
@@ -150,14 +150,12 @@ class NivelDificil extends JFrame implements KeyListener{
 			y=y+10;
 		}
 		spriteD.setLocation(x,y);
-		posjugadorD = spriteD.getBounds();		
-		//System.out.println(posjugadorD);
 		//crearSonidoPasos(t); //Hilo para reproducir los pasos
 	}
 
 	public void keyReleased(KeyEvent e)
 	{
-		Point pos = spriteD.getLocation();
+		/*Point pos = spriteD.getLocation();
 		int x = (int)pos.getX();
 		int y = (int)pos.getY();
 		x = x+5;
@@ -168,7 +166,7 @@ class NivelDificil extends JFrame implements KeyListener{
 		{
 			x=x-5;
 		}
-		spriteD.setLocation(x,y);
+		spriteD.setLocation(x,y);*/
 	}
 
 	public void keyTyped(KeyEvent e)
@@ -178,9 +176,9 @@ class NivelDificil extends JFrame implements KeyListener{
 
 	public void crearPatrulla1()
 	{
-		Patrulla pat1 = new Patrulla(this.jlPatrulla);
-		Patrulla1 = new Thread(pat1);
-		Patrulla1.start(); 
+		Patrulla pat1 = new Patrulla(this.jlPatrulla, this.spriteD);
+		patrulla1 = new Thread(pat1);
+		patrulla1.start(); 
 	}
 
 	public void crearSonidoPasos(int t)
@@ -188,13 +186,5 @@ class NivelDificil extends JFrame implements KeyListener{
 		HiloPasos hp = new HiloPasos(t);
 		sonidohp = new Thread(hp);
 		sonidohp.start();
-	}
-
-	public void recibirPos(Rectangle pos){
-		posPatrulla = pos;
-		if (posjugadorD.intersects(posPatrulla))
-		{
-			System.out.println("Choque");
-		}
 	}
 }
