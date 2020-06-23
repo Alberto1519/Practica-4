@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 class NivelFacil extends JFrame implements KeyListener{
 	
-	//Panel donde se trabbajara
+	//Panel donde se trabajara
 	JPanel panel;
 	ImageIcon iFondo;//calle fondo
 	JLabel jlFondo;
@@ -36,6 +36,10 @@ class NivelFacil extends JFrame implements KeyListener{
 	//Hilos utilizados
 	Thread movimiento1;
 	Thread sonidohp;
+
+	//Puntos
+		int puntos;
+		boolean activador=false;
 
 	public NivelFacil()
 	{
