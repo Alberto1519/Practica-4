@@ -24,7 +24,7 @@ class VentanaPuntaje extends JFrame implements ActionListener{
 
 	//Nombre del jugador y puntos 
 	JTextField txfJugador;
-	JTextField txfJugador_2; //Es de calis por el momento
+	JTextField txfPuntos; //Es de calis por el momento
 
 	//Area del puntaje
 	JTextArea txaPuntajesTotales;
@@ -32,9 +32,13 @@ class VentanaPuntaje extends JFrame implements ActionListener{
 	JScrollPane scbar;
 
 	ControldePuntos cdp = new ControldePuntos();
+	int puntos;
+	String puntosSt;
 
-	public VentanaPuntaje()
+	public VentanaPuntaje(int puntos)
 	{
+		this.puntos = puntos;
+		puntosSt = String.valueOf(puntos);
 		puntajes = new ArrayList<String>();
 
 		this.setTitle("SCORES");
@@ -146,17 +150,20 @@ class VentanaPuntaje extends JFrame implements ActionListener{
 		txfJugador.setBounds(50,400,100,40);
 
 		//Puntos del jugador (CALIS)
-		txfJugador_2 = new JTextField();
-		txfJugador_2.setBounds(180,400,100,40);
+		txfPuntos = new JTextField(puntosSt);
+		txfPuntos.setEditable(false);
+		txfPuntos.setForeground(Color.BLACK);
+		txfPuntos.setBackground(Color.WHITE);
+		txfPuntos.setBounds(180,400,100,40);
 
 		//Scrollbar
-		scbar = new JScrollPane();
-
+		scbar = new JScrollPane(txaPuntajesTotales);
 
 		//Agregar al panel
 		panel.add(txfJugador);
-		panel.add(txfJugador_2);
+		panel.add(txfPuntos);
 		panel.add(txaPuntajesTotales);
+		panel.add(scbar);
  	}
 
 
@@ -180,7 +187,7 @@ class VentanaPuntaje extends JFrame implements ActionListener{
 		if(event.getSource() == this.btnGuardar){
 			try{
 			String jugador = txfJugador.getText();
-			String punt = txfJugador_2.getText();
+			String punt = txfPuntos.getText();
 			cdp.guardarPuntos(jugador,punt);
 			}catch(Exception e){
 				System.out.println("Error al cargar jugador o puntos.");

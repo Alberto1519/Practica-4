@@ -10,7 +10,7 @@ public class Patrulla implements Runnable{
 	int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
 	int y;
 	int x;
-	boolean activador=true;
+	boolean a=true;
 	int puntos;
 
 	public Patrulla(JLabel jlPatrulla, SpriteDificil spriteD)
@@ -22,26 +22,30 @@ public class Patrulla implements Runnable{
 	@Override
 	public void run()
 	{
-		while(activador == true)
+		while(a)
 			{
+
 			Random rnd = new Random();
 			y=(int)(rnd.nextDouble() * alto + 0);
+
 			for (x=ancho; x>-380 ; x=x-10) 
-			{
-				this.jlPatrulla.setLocation(x,y);
-				retardo(50);
-				if (jlPatrulla.getBounds().intersects(spriteD.getBounds()))
 				{
-					System.out.println("choco");
-					activador = false;
+					this.jlPatrulla.setLocation(x,y);
+					retardo(50);
+
+					if (jlPatrulla.getBounds().intersects(spriteD.getBounds()))
+					{
+						a = false;
+						x = -400;
+					}
+
+					puntos=puntos+1;
 				}
-				if(activador==true){
-				puntos=puntos+1;
-				System.out.println(puntos);
 			}
-			}						
-		}
-	}	
+
+		VentanaPuntaje vPP = new VentanaPuntaje(puntos);
+	}
+
 	public void retardo(int ms)
 	{
 		try
