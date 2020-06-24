@@ -152,17 +152,19 @@ class VentanaPuntaje extends JFrame implements ActionListener{
 		//Puntos del jugador (CALIS)
 		txfPuntos = new JTextField(puntosSt);
 		txfPuntos.setEditable(false);
-		txfPuntos.setForeground(Color.BLACK);
-		txfPuntos.setBackground(Color.WHITE);
+		txfPuntos.setForeground(Color.WHITE);
+		txfPuntos.setBackground(Color.BLACK);
 		txfPuntos.setBounds(180,400,100,40);
 
 		//Scrollbar
-		scbar = new JScrollPane(txaPuntajesTotales);
+		scbar = new JScrollPane();
+		scbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scbar.setBounds(50,90,380,300);
+		scbar.getViewport().add(txaPuntajesTotales);
 
 		//Agregar al panel
 		panel.add(txfJugador);
 		panel.add(txfPuntos);
-		panel.add(txaPuntajesTotales);
 		panel.add(scbar);
  	}
 
@@ -197,13 +199,18 @@ class VentanaPuntaje extends JFrame implements ActionListener{
 		}
 
 		if(event.getSource() == this.btnReiniciar){
-			this.setVisible(false);
+			dispose();
+			/*
+			if boolean verdad se va a volver falso se manda a la ventana que mando el boolean y se hara un dispose y la ventana prinicpal la debemos hacer visible
+			*/
 			//Codigo para volver a iniciar la ventana
 		}
 
 		if(event.getSource() == this.btnMenu){
-			//this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			//RunAway.setVisible(true);
+			dispose();
+			
+			boolean a = true;
+
 		}
 	}
 

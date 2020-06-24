@@ -183,4 +183,13 @@ class VentanaPrincipal extends JFrame implements ActionListener{
 			ms.StopPlaying();
 		}
 	}
+
+	//Hacer visible la pantalla 
+	public void volverVisible(boolean visible){
+		if(visible == true){
+
+			this.setVisible(true);
+
+		}
+	}
 }	
