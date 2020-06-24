@@ -91,7 +91,7 @@ class NivelDificil extends JFrame implements KeyListener{
 
 		spriteD.setBounds(ancho/2,alto/2, 150, 150);		
 		spriteD.setVisible(true);
-		spriteD.setOpaque(false);
+		spriteD.setOpaque(true);
 		
 		this.add(spriteD);
 	}
@@ -102,12 +102,12 @@ class NivelDificil extends JFrame implements KeyListener{
 		try{
 			iPatrulla = new ImageIcon ("./imagenes/patrulla_nD.png");
 			jlPatrulla = new JLabel();
-			jlPatrulla.setBounds(0,0,380*2,200*2); //(x, y, w, h)
+			jlPatrulla.setBounds(0,0,509,262); //(x, y, w, h)
 			jlPatrulla.setIcon(new ImageIcon(iPatrulla.getImage().getScaledInstance(jlPatrulla.getWidth(),jlPatrulla.getHeight(),Image.SCALE_SMOOTH)));
 		}catch(Exception e){
 			System.out.println("Error al cargar imagen.");
 		} 
-		jlPatrulla.setOpaque(false);
+		jlPatrulla.setOpaque(true);
 		this.add(jlPatrulla);
 	}
 
@@ -118,25 +118,27 @@ class NivelDificil extends JFrame implements KeyListener{
 		int x = (int)pos.getX();
 		int y = (int)pos.getY();
 
-		if(t==68)
-		{
-			x = x+10;
-			indiceX = ((indiceX + 2) % 9) * 150;
-			spriteD.jugadorD = jugadorD.getSubimage(indiceX,150*3,150,150);
-		}
-		else if(t==83)
+		if(t==83)
 		{
 			y = y+10;
-			indiceX = ((indiceX + 1) % 9) * 150;
+			if(indiceX>1199)
+			{
+				this.indiceX=0;
+			}
+			indiceX = indiceX + 150;
 			spriteD.jugadorD = jugadorD.getSubimage(indiceX,150*2,150,150);
 		}
 		else if(t==87)
 		{
 			y = y-10;
-			indiceX = ((indiceX + 1) % 9) * 150;
+			if(indiceX>1199)
+			{
+				this.indiceX=0;
+			}
+			indiceX = indiceX + 150;
 			spriteD.jugadorD = jugadorD.getSubimage(indiceX,150*0,150,150);
 		}
-		spriteD.setLocation(x,y);
+		spriteD.setLocation(0,y);
 		if(x>ancho/2)
 		{
 			x=x-10;
@@ -155,7 +157,7 @@ class NivelDificil extends JFrame implements KeyListener{
 
 	public void keyReleased(KeyEvent e)
 	{
-		/*Point pos = spriteD.getLocation();
+		Point pos = spriteD.getLocation();
 		int x = (int)pos.getX();
 		int y = (int)pos.getY();
 		x = x+5;
@@ -166,7 +168,7 @@ class NivelDificil extends JFrame implements KeyListener{
 		{
 			x=x-5;
 		}
-		spriteD.setLocation(x,y);*/
+		spriteD.setLocation(x,y);
 	}
 
 	public void keyTyped(KeyEvent e)
