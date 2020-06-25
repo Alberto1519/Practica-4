@@ -91,7 +91,7 @@ class NivelDificil extends JFrame implements KeyListener{
 
 		spriteD.setBounds(ancho/2,alto/2, 150, 150);		
 		spriteD.setVisible(true);
-		spriteD.setOpaque(true);
+		spriteD.setOpaque(false);
 		
 		this.add(spriteD);
 	}
@@ -107,7 +107,7 @@ class NivelDificil extends JFrame implements KeyListener{
 		}catch(Exception e){
 			System.out.println("Error al cargar imagen.");
 		} 
-		jlPatrulla.setOpaque(true);
+		jlPatrulla.setOpaque(false);
 		this.add(jlPatrulla);
 	}
 
@@ -152,7 +152,7 @@ class NivelDificil extends JFrame implements KeyListener{
 			y=y+10;
 		}
 		spriteD.setLocation(x,y);
-		//crearSonidoPasos(t); //Hilo para reproducir los pasos
+		crearSonidoPasos(t); //Hilo para reproducir los pasos
 	}
 
 	public void keyReleased(KeyEvent e)

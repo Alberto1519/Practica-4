@@ -96,7 +96,7 @@ class NivelFacil extends JFrame implements KeyListener{
 
 		sprite.setBounds(0, 0, 150, 150);		
 		sprite.setVisible(true);
-		sprite.setOpaque(true);
+		sprite.setOpaque(false);
 		sprite.setLocation((ancho/2)-10,alto/2);
 		//Agregar al panel
 		//movimientSprite
@@ -119,7 +119,7 @@ class NivelFacil extends JFrame implements KeyListener{
 
 		pol1.setBounds(0, 0, 150, 150);		
 		pol1.setVisible(true);
-		pol1.setOpaque(true);
+		pol1.setOpaque(false);
 		pol1.setLocation((ancho/2)-160,alto/2);
 		//Agregar al panel
 		this.add(pol1);
@@ -191,7 +191,7 @@ class NivelFacil extends JFrame implements KeyListener{
 		sprite.setLocation(x,y);
 		pol1.setLocation(x_policia,y_policia);
 		
-		//crearSonidoPasos(t); //Hilo para reproducir los pasos
+		crearSonidoPasos(t); //Hilo para reproducir los pasos
 	}
 
 	public void keyReleased(KeyEvent e)

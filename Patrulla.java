@@ -39,7 +39,7 @@ public class Patrulla implements Runnable{
 						x = -400;
 					}
 
-					puntos=puntos+1;
+					puntos=puntos+2;
 				}
 			}
 

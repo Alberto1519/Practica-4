@@ -38,6 +38,7 @@ public class Movimiento implements Runnable{
 				puntos=puntos+1;
 			}						
 		}
+		VentanaPuntaje vPP = new VentanaPuntaje(puntos);
 	}	
 	public void retardo(int ms)
 	{
