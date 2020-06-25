@@ -46,7 +46,7 @@ class VentanaPuntaje extends JFrame implements ActionListener{
 
 		componentes();
 
-		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		this.setResizable(false); //Evitar que se puede hacer mas pequena la ventana
 		this.setVisible(true);
 
@@ -200,17 +200,12 @@ class VentanaPuntaje extends JFrame implements ActionListener{
 
 		if(event.getSource() == this.btnReiniciar){
 			dispose();
-			/*
-			if boolean verdad se va a volver falso se manda a la ventana que mando el boolean y se hara un dispose y la ventana prinicpal la debemos hacer visible
-			*/
-			//Codigo para volver a iniciar la ventana
+			VentanaReiniciar vR = new VentanaReiniciar();
 		}
 
 		if(event.getSource() == this.btnMenu){
 			dispose();
-			
-			boolean a = true;
-
+			VentanaPrincipal vP = new VentanaPrincipal();
 		}
 	}
 
