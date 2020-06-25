@@ -10,7 +10,7 @@ public class Movimiento implements Runnable{
 	int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
 	int y;
 	int x;
-	boolean activador=true;
+	boolean a=true;
 	int puntos;
 
 	public Movimiento(JLabel jlPared, Sprites sprite)
@@ -22,23 +22,20 @@ public class Movimiento implements Runnable{
 	@Override
 	public void run()
 	{
-		while(activador==true)
+		while(a)
 			{
 			Random rnd = new Random();
-			y=(int)(rnd.nextDouble() * alto + 0);
+			y=(int)(rnd.nextDouble() * (alto-150) + 0);
 			for (x=ancho; x>-380 ; x=x-10) 
 			{
 				this.jlPared.setLocation(x,y);
 				retardo(50);
 				if (jlPared.getBounds().intersects(sprite.getBounds()))
 				{
-					System.out.println("choco");
-					activador = false;
+					a = false;
+					x = -400;
 				}
-				if(activador==true){
 				puntos=puntos+1;
-				System.out.println(puntos);
-			}
 			}						
 		}
 	}	
